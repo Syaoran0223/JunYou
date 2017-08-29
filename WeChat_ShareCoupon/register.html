@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>律师同行发福利，新会员专享大礼包！</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link rel="stylesheet" href="./css/base.css">
+        <!-- <link rel="stylesheet" href="./css/shared.css"> -->
+        <link rel="stylesheet" href="./css/share.css">
+        <script src="./js/jquery.min.js"></script>
+    </head>
+    <style media="screen">
+        .coupon-left-middle {
+            color: white;
+            /*text-align: left;*/
+            left:0;
+        }
+        .coupon-left-bottom {
+            left:0;
+        }
+        .coupon-left-top {
+            left: 0;
+        }
+        .footer-info {
+            position: relative;
+            color: #999;
+            font-size:0.25rem /* 16/64 */;
+        }
+    </style>
+    <body>
+        <div class="banner">
+            <img id="id-banner-img" src="./image/new.png" alt="">
+        </div>
+        <!-- 切换区域 -->
+        <div id='wxLogin' class="wxLogin">
+
+        </div>
+        <div class="bg">
+            <div class="addCss bindphone show">
+                <div class="user-input">
+
+                    <div class="input-phone">
+                        <div class="input-img"><img src="./image/user.png" albt=""></div>
+                        <input class="inputs" id='bind-input-tel'type="text" placeholder="请输入手机号码">
+                    </div>
+                </div>
+                <div class="login">
+                    <button id='bind-button-bind'type="button" name="button">点击领取</button>
+                </div>
+            </div>
+            <div class="addCss register  show">
+                <div class="user-input">
+                    <div class="input-phone">
+                        <div class="input-img"><img src="./image/user.png" albt=""></div>
+                        <input class="inputs" id='register-input-tel'type="text" placeholder="请输入手机号码">
+                    </div>
+                    <div class="input-phone">
+                        <!-- <img src="./image/shild.png" albt=""> -->
+                        <div class="input-img"><img src="./image/shild.png" albt=""></div>
+                        <input class="inputs" id='register-input-shild'type="text" placeholder="请输入验证码">
+                        <button class="validate" id='register-button-validae'type="button" name="button">获取验证码</button>
+                    </div>
+                    <div class="input-phone">
+                        <!-- <img src="./image/password.png" albt=""> -->
+                        <div class="input-img"><img src="./image/password.png" albt=""></div>
+                        <input class="inputs" id='register-input-password'type="password" placeholder="请输入密码">
+                    </div>
+                    <div class="login">
+                        <button id='id-button-register' type="button" name="button">用户注册</button>
+                    </div>
+                </div>
+            </div>
+            <div class="addCss coupon-bg show">
+                <div class="coupon-list">
+                <div class="coupon">
+                    <div class="coupon-left">
+                        <span class="coupon-left-text">
+                            <img id="id-bg"src="./image/bg.png" alt="">
+                            <span class="coupon-left-top">优惠券</span>
+                            <span class="coupon-left-middle"><span class="money">￥</span>550</span>
+                            <span class="line"></span>
+                            <span class="coupon-left-bottom">可 使 用</span>
+                        </span>
+                    </div>
+                    <div class="coupon-right">
+                        <span class="coupon-right-main">
+                        <span class="coupon-right-title">合同审查</span></br>
+                        <p class="coupon-right-info"><span class="activeTime">有效期至 2017-08-23</span>
+                        </br>仅限用于合同审查，用券后0元。
+                    </p>
+                        </span>
+                    </div>
+                </div>
+                <!-- 30元优惠 -->
+                <div class="coupon">
+                    <div class="coupon-left">
+                        <span class="coupon-left-text">
+                            <img id="id-bg"src="./image/bg.png" alt="">
+                            <span class="coupon-left-top">优惠券</span>
+                            <span class="coupon-left-middle"><span class="money">￥</span>30</span>
+                            <span class="line"></span>
+                            <span class="coupon-left-bottom">可 使 用</span>
+                        </span>
+                    </div>
+                    <div class="coupon-right">
+                        <span class="coupon-right-main">
+                        <span class="coupon-right-title">电话咨询</span></br>
+                        <p class="coupon-right-info">
+                            <!-- 有效期至 2017-08-23 -->
+                            <span class="activeTime">有效期至 2017-08-23</span>
+                        </br>
+                            仅限用于电话咨询，用券后0元。
+                        </p>
+                        </span>
+                    </div>
+                </div>
+                </div>
+                <div class="coupon-info">
+                    优惠券已放入账号
+                </div>
+                <div class="button">
+                    <button id="coupon-button-coupon"type="button" name="button">下载律师同行APP</button>
+                </div>
+            </div>
+        </div>
+        </div>
+        <!-- 底部信息 -->
+        <div class="footer">
+            <div class="footer-text">
+                <span class="footer-title">活动规则</br></span>
+                <p class="footer-info">
+                    <!-- 1.优惠券新老用户通用；</br>
+                    2.优惠券仅限在律师同行最新客户端下单且选择在线支付时使用；</br>
+                    3.仅限在线支付使用，且使用人手机号、领取优惠券时输入的手机号和律师同行APP的账号需为同一个手机号。</br>
+                    <br>
+                    <br> -->
+                    1.仅限在本次活动时间内的注册会员用户领取，每人限领1次；</br>
+                    2.新会员礼包优惠券总额580元，包含：电话咨询30元优惠券、合同审查550元优惠券；</br>
+                    3.优惠券使用：各产品优惠券限用与对应产品新购，优惠券有效期自领取之日起7天，过期失效；</br>
+                    4.优惠券金额及有效期以律师同行APP会员区内显示为准；</br>
+                    5.活动时间：2017年8月23日-2017年9月22日；</br>
+                    6.本次活动由君友大数据在遵守相应法规的范围内解释。</br>
+                    <br>
+                    <br>
+                    <br>
+                </p>
+            </div>
+        </div>
+        <script src="./js/date-zh-CN.js" charset="utf-8"></script>
+        <script src="./js/fuzhuxian.js" charset="utf-8"></script>
+        <script src="./js/md5.js" charset="utf-8"></script>
+        <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+        <script src="./js/ajaxApi.js" charset="utf-8"></script>
+        <!-- <script src="./js/wxLogin.js"></script> -->
+        <!-- <script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script> -->
+        <script src="./js/main.js?v=20151109" charset="utf-8"></script>
+        <script>
+            // $('.bindphone').hide()
+            // $('.register').hide()
+        </script>
+    </body>
+</html>

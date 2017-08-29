@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <script type="text/javascript">
+        let browserRedirect = function () {
+    let sUserAgent = navigator.userAgent.toLowerCase();
+    let bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+    let bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+    let bIsMidp = sUserAgent.match(/midp/i) == "midp";
+    let bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+    let bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+    let bIsAndroid = sUserAgent.match(/android/i) == "android";
+    let bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+    let bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
+    // document.writeln("您的浏览设备为：");
+    if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
+        return "phone"
+    } else {
+        return "pc"
+    }
+}
+            window.location.href = 'ydjyLawWirelessVersion://'
+        </script>
+    </body>
+</html>

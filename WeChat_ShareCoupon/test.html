@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>打开APP</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link rel="stylesheet" href="./css/base.css">
+        <link rel="stylesheet" href="./css/share.css">
+        <link rel="stylesheet" href="./css/openApp.css">
+        <script src="./js/jquery.min.js"></script>
+    </head>
+    <body>
+        <div class="banner">
+            <img id="id-banner-img" src="./image/guide.png" alt="">
+        </div>
+        <!-- <div class="log">
+        </div> -->
+        <div class="android">
+            <div class="android-bg">
+            </div>
+            <div class="android-button">
+                <div class="android-button-top">
+                    是否打开应用链接?
+                </div>
+                <div class="android-button-bottom">
+                    <div class="android-no">
+                        否
+                    </div>
+                    <div class="android-yes">
+                        是
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="./js/fuzhuxian.js" charset="utf-8"></script>
+        <script>
+        var append = function(t) {
+            return
+        }
+        append('执行了js')
+
+        // 判断是否是微信浏览器
+        function isWechat(){
+            var ua = navigator.userAgent.toLowerCase();
+            if(ua.match(/MicroMessenger/i)=="micromessenger"){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        //  判断手机系统后 打开APP || 打开下载页面
+        let browserRedirect = function () {
+            let sUserAgent = navigator.userAgent.toLowerCase();
+            let bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+            let bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+            let bIsMidp = sUserAgent.match(/midp/i) == "midp";
+            let bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+            let bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+            let bIsAndroid = sUserAgent.match(/android/i) == "android";
+            let bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+            let bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
+            // document.writeln("您的浏览设备为：");
+            if (bIsIpad || bIsIphoneOs ) {
+                // append('苹果', sUserAgent)
+                    $('.banner').show()
+                    window.location.href = "ydjyLawWirelessVersion://"
+                    window.setTimeout(function() {
+                    window.location.href ="https://itunes.apple.com/cn/app/id1061528563"
+                    }, 2000)
+            } else{
+                    // $('.banner').hide()
+                    // $('.log').hide()
+                    // $('.androidJump').show()
+                    androidInit()
+            }
+        }
+
+        // 点击 是 按钮
+        var yesBututton = function() {
+            $('.android-yes').on('click', function() {
+                console.log('点击到了yes')
+                window.location.href = 'lvshitongxing://'
+                window.setTimeout(function() {
+                window.location.href ="http://a.app.qq.com/o/simple.jsp?pkgname=com.fjjy.lawapp"
+                }, 2000)
+            })
+        }
+
+        // 点击 否 按钮
+        var noButton = function() {
+            $('.android-no').on('click', function() {
+                $('.android').hide()
+                $('.banner').hide()
+            })
+        }
+
+        var androidInit = function( ) {
+            noButton()
+            yesBututton()
+            $('.android').show()
+        }
+        var pageInit = function () {
+            $('.banner').show()
+            $('.android').hide()
+        }
+        pageInit()
+
+        append('载入前读取</br>')
+        // 页面加载后执行
+        $(document).ready(function() {;
+            append('读取完成</br>')
+            let sUserAgent = navigator.userAgent.toLowerCase();
+            // append(sUserAgent)
+            if (isWechat()) {
+                append('在微信浏览器内')
+            } else  {
+                // append('在外部浏览器')
+                browserRedirect()
+            }
+
+        });
+       </script>
+    </body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>打开APP</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link rel="stylesheet" href="./css/base.css">
+        <link rel="stylesheet" href="./css/share.css">
+        <link rel="stylesheet" href="./css/openApp.css">
+        <script src="./js/jquery.min.js"></script>
+    </head>
+    <body>
+        <div class="banner">
+            <img id="id-banner-img" src="./image/guide.png" alt="">
+        </div>
+        <!-- <div class="log">
+        </div> -->
+        <div class="android">
+            <div class="android-bg">
+            </div>
+            <div class="android-button">
+                <div class="android-button-top">
+                    是否打开应用链接?
+                </div>
+                <div class="android-button-bottom">
+                    <div class="android-no">
+                        否
+                    </div>
+                    <div class="android-yes">
+                        是
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="./js/fuzhuxian.js" charset="utf-8"></script>
+        <script>
+        var log = console.log.bind(console, '***')
+
+        // 判断是否是微信浏览器
+        function isWechat(){
+            var ua = navigator.userAgent.toLowerCase();
+            if(ua.match(/MicroMessenger/i)=="micromessenger"){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        //  判断手机系统后 打开APP || 打开下载页面
+        let browserRedirect = function () {
+            let sUserAgent = navigator.userAgent.toLowerCase();
+            let bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+            let bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+            let bIsMidp = sUserAgent.match(/midp/i) == "midp";
+            let bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+            let bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+            let bIsAndroid = sUserAgent.match(/android/i) == "android";
+            let bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+            let bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
+            // document.writeln("您的浏览设备为：");
+            if (bIsIpad || bIsIphoneOs ) {
+
+                    $('.banner').show()
+                    window.location.href = "ydjyLawWirelessVersion://"
+                    window.setTimeout(function() {
+                    window.location.href ="https://itunes.apple.com/cn/app/id1061528563"
+                    }, 2000)
+            } else{
+                    // $('.banner').hide()
+                    // $('.log').hide()
+                    // $('.androidJump').show()
+                    androidInit()
+            }
+        }
+
+        // 点击 是 按钮
+        var yesBututton = function() {
+            $('.android-yes').on('click', function() {
+                console.log('点击到了yes')
+                window.location.href = 'lvshitongxing://'
+                window.setTimeout(function() {
+                window.location.href ="http://a.app.qq.com/o/simple.jsp?pkgname=com.fjjy.lawapp"
+                }, 2000)
+            })
+        }
+
+        // 点击 否 按钮
+        var noButton = function() {
+            $('.android-no').on('click', function() {
+                $('.android').hide()
+                $('.banner').hide()
+            })
+        }
+
+        // 解析 URL
+        var splitUrl = function(url) {
+            log('url', url)
+            url = url.split('?')[1].split('&')
+            var obj = {}
+            url.map((e) => {
+                var [k,v] = e.split('=')
+                obj[k] = v
+            })
+            log('splitUrl', obj,'id',obj.id)
+            return obj
+        }
+
+
+        var androidInit = function( ) {
+            noButton()
+            yesBututton()
+            $('.android').show()
+        }
+
+        var pageInit = function () {
+            $('.banner').show()
+            $('.android').hide()
+        }
+        pageInit()
+
+        var getOpenID = function(callback){
+            //截取code,获取openID
+            var code = splitUrl(location.href).code;
+            var appid = 'wx21a24ecdc34ee0b0'
+            var appsecret = '0f8bb27b605bdc8eac8a608acc09fdad'
+            // 获取活动id
+            var couponId = splitUrl(location.href).id
+            log('dddddddd couponId',couponId)
+            // getCouponInfo(couponId)
+            if(!window.sessionStorage.getItem("openid")){
+                $.ajax({
+                    url : "https://api.weixin.qq.com/sns/oauth2/access_token",
+                    type : "post",
+                    dataType : "json",
+                    data : {
+                        appid: appid,
+                        secret:appsecret,
+                        code : code,
+                        grant_type:'authorization_code' ,
+                    },
+                    success : function(res){
+                        log('res',res)
+                    },
+                    error : function(XMLHttpRequest, textStatus, errorThrown) {
+                        alert("未知错误，请稍后重试");
+                    }
+                });
+            };
+        }
+
+        // 页面加载后执行
+        $(document).ready(function() {;
+
+            let sUserAgent = navigator.userAgent.toLowerCase();
+
+            if (isWechat()) {
+                getOpenID()
+            } else  {
+
+
+            }
+
+        });
+       </script>
+    </body>
+</html>

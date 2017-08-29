@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>表单测试1</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link rel="stylesheet" href="./css/base.css">
+        <link rel="stylesheet" href="./css/index.css">
+    </head>
+    <style media="screen">
+        body {
+            /*background: lightblue;*/
+        }
+        form {
+            background: white;
+        }
+        select,input {
+            width: 4.69rem /* 300/64 */;
+            height: 1.25rem /* 80/64 */;
+            background: white;
+            position: absolute;
+            top: 0.16rem /* 10/64 */;
+            left: 3.74rem /* 200/64 */;
+            font-size: 0.55rem /* 35/64 */;
+        }
+        input::placeholder {
+            color: black;
+        }
+        .title {
+            width: 3.13rem /* 200/64 */;
+            position: relative;
+            line-height: 1.56rem /* 100/64 */;
+            height: 1.56rem /* 100/64 */;
+            left: 0.61rem /* 20/64 */;
+
+        }
+        .form-sel {
+            position: relative;
+            width: 10rem /* 640/64 */;
+            font-size: 0.63rem /* 40/64 */;
+            border-top:  1px solid black;
+            border-bottom: 1px solid black;
+            height: 1.56rem /* 100/64 */;
+            line-height: 1.56rem /* 100/64 */;
+        }
+    </style>
+    <body>
+        <form class="form1" action="index.html" method="post">
+            <div class="form-sel ">
+                <span class="title">业务类型:</span>
+                <select class="business-type" name="请选择">
+                    <option value="合同审查">合同审查</option>
+                    <option value="合同修订">合同修订</option>
+                    <option value="合同纠纷">合同纠纷</option>
+                </select>
+            </div>
+            <div class="form-sel phone">
+                <span class="title">联系电话:</span>
+                <input type="text" name="phone"  placeholder="必填">
+            </div>
+            <!-- pin:<input type="text" name="pin" value="pin-demo"> -->
+        </form>
+        <script type='text/javascript'>
+            (function(m, ei, q, i, a, j, s) {
+                m[i] = m[i] || function() {
+                    (m[i].a = m[i].a || []).push(arguments)
+                };
+                j = ei.createElement(q),
+                    s = ei.getElementsByTagName(q)[0];
+                j.async = true;
+                j.charset = 'UTF-8';
+                j.src = 'https://static.meiqia.com/dist/meiqia.js?_=t';
+                s.parentNode.insertBefore(j, s);
+            })(window, document, 'script', '_MEIQIA');
+            _MEIQIA('entId', 69629);
+        </script>
+        <script src="./js/fuzhuxian.js" charset="utf-8"></script>
+    </body>
+</html>

@@ -35,7 +35,60 @@
         <div id='wxLogin' class="wxLogin">
 
         </div>
-
+        <div class="bg">
+            <div class="addCss coupon-bg show">
+                <div class="coupon-list">
+                <div class="coupon">
+                    <div class="coupon-left">
+                        <span class="coupon-left-text">
+                            <img id="id-bg"src="./image/bg.png" alt="">
+                            <span class="coupon-left-top">优惠券</span>
+                            <span class="coupon-left-middle"><span class="money">￥</span>550</span>
+                            <span class="line"></span>
+                            <span class="coupon-left-bottom">可 使 用</span>
+                        </span>
+                    </div>
+                    <div class="coupon-right">
+                        <span class="coupon-right-main">
+                        <span class="coupon-right-title">合同审查</span></br>
+                        <p class="coupon-right-info"><span class="activeTime">有效期至 2017-08-23</span>
+                        </br>仅限用于合同审查，用券后0元。
+                    </p>
+                        </span>
+                    </div>
+                </div>
+                <!-- 30元优惠 -->
+                <div class="coupon">
+                    <div class="coupon-left">
+                        <span class="coupon-left-text">
+                            <img id="id-bg"src="./image/bg.png" alt="">
+                            <span class="coupon-left-top">优惠券</span>
+                            <span class="coupon-left-middle"><span class="money">￥</span>30</span>
+                            <span class="line"></span>
+                            <span class="coupon-left-bottom">可 使 用</span>
+                        </span>
+                    </div>
+                    <div class="coupon-right">
+                        <span class="coupon-right-main">
+                        <span class="coupon-right-title">电话咨询</span></br>
+                        <p class="coupon-right-info">
+                            <!-- 有效期至 2017-08-23 -->
+                            <span class="activeTime">有效期至 2017-08-23</span>
+                        </br>
+                            仅限用于电话咨询，用券后0元。
+                        </p>
+                        </span>
+                    </div>
+                </div>
+                </div>
+                <div class="coupon-info">
+                    优惠券已放入账号
+                </div>
+                <div class="button">
+                    <button id="coupon-button-coupon"type="button" name="button">下载律师同行APP</button>
+                </div>
+            </div>
+        </div>
         </div>
         <!-- 底部信息 -->
         <div class="footer">
@@ -47,12 +100,12 @@
                     3.仅限在线支付使用，且使用人手机号、领取优惠券时输入的手机号和律师同行APP的账号需为同一个手机号。</br>
                     <br>
                     <br> -->
-                    1.仅限在本次活动时间内的注册会员用户领取，每人限领1次；</br>
+                    <!-- 1.仅限在本次活动时间内的注册会员用户领取，每人限领1次；</br>
                     2.新会员礼包优惠券总额580元，包含：电话咨询30元优惠券、合同审查550元优惠券；</br>
                     3.优惠券使用：各产品优惠券限用与对应产品新购，优惠券有效期自领取之日起7天，过期失效；</br>
                     4.优惠券金额及有效期以律师同行APP会员区内显示为准；</br>
                     5.活动时间：2017年8月23日-2017年9月22日；</br>
-                    6.本次活动由君友大数据在遵守相应法规的范围内解释。</br>
+                    6.本次活动由君友大数据在遵守相应法规的范围内解释。</br> -->
                     <br>
                     <br>
                     <br>
@@ -64,10 +117,116 @@
         <script src="./js/md5.js" charset="utf-8"></script>
         <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
         <script src="./js/ajaxApi.js" charset="utf-8"></script>
-        <script src="./js/main.js?v=20151109" charset="utf-8"></script>
+        <!-- <script src="./js/main.js?v=20151109" charset="utf-8"></script> -->
         <script>
-            // $('.bindphone').hide()
-            // $('.register').hide()
+        log(path)
+        // 转换时间戳
+        var timeChange = function(time) {
+            log('time', time)
+            var d = new Date(time)
+        	var nm = d.getFullYear()
+            if (nm.length < 2) {
+                nm = '0' + nm
+            }
+        	var yt = d.getMonth() + 1
+            if (yt.length < 2) {
+                yt = '0' + yt
+            }
+        	var ri = d.getDate()
+            if (ri.length < 2) {
+                ri = '0' + ri
+            }
+        	var ui = d.getHours()
+            if (ui.length < 2) {
+                ui = '0' + ui
+            }
+        	var ff = d.getMinutes()
+            if (ff.length < 2) {
+                ff = '0' + ff
+            }
+        	var mc = d.getSeconds()
+            if (mc.length < 2) {
+                mc = '0' + mc
+            }
+        	return `${nm}-${yt}-${ri}`
+        }
+        //  优惠券模板
+            var couponTemplate = function(couponInfo) {
+                // 折扣        discountMoney
+                // 优惠券名称   title
+                // 有效期      endDate
+                // 满xx可用    leastMoneyLimit
+                var i = couponInfo
+                // 有效期转换
+                var obj = {
+                    discountMoney: i.discountMoney,
+                    title: i.title,
+                    endDate: timeChange(i.endDate),
+                    leastMoneyLimit : i.leastMoneyLimit ,
+                    notes: i.notes
+                }
+                log('截止日期',obj.endDate)
+                var t = `
+                <div class='coupon'>
+                    <div class="coupon-left">
+                        <span class="coupon-left-text">
+                            <img id="id-bg"src="./image/bg.png" alt="">
+                            <span class="coupon-left-top">优惠券</span>
+                            <span class="coupon-left-middle"><span class="money">￥</span>${obj.discountMoney}</span>
+                            <span class="line"></span>
+                            <span class="coupon-left-bottom">可 使 用</span>
+                        </span>
+                    </div>
+                    <div class="coupon-right">
+                        <span class="coupon-right-main">
+                        <span class="coupon-right-title">${obj.title}</span></br>
+                        <p class="coupon-right-info">有效期至 ${obj.endDate}</br>仅限用于${obj.title}，用券后0元</p>
+                        </span>
+                    </div>
+                </div>`
+                // 单独修改 活动规则
+                $('.footer-info').text(obj.notes)
+                return t
+            }
+            // 页面中添加优惠券
+            var appenCoupon = function(arr) {
+                var coupon = document.querySelector('.coupon-list')
+                for (var i = 0; i < arr.length; i++) {
+                    var c = arr[i]
+                    var t = couponTemplate(c)
+                    coupon.insertAdjacentHTML('beforeend', t)
+                }
+            }
+            // 获取优惠券信息
+            var getCouponInfo = function(couponId) {
+                log('getCouponInfo里的 couponId', couponId)
+                var url = path + '/law/if/v2/promotionalActivity/promotionalActivityCouponList'
+                var sendData = {
+                    promotionalActivityId: couponId,
+                }
+                $.post(url, sendData,function(res) {
+                    console.log('获取到的优惠券信息', res.data)
+                    var info = res.data
+                    log('info', info)
+                    appenCoupon(info)
+                })
+            }
+
+            // 解析字符串 分解成 object
+            var splitUrl = function(url) {
+                url = url.split('?')[1].split('&')
+                var obj = {}
+                url.map((e) => {
+                    var [k,v] = e.split('=')
+                    obj[k] = v
+                })
+                log('splitUrl', obj,'id',obj.id)
+                return obj
+            }
+
+            var url = `http://www.jy12348.com/ccb/coupon/coupon.html?id=16&code=071hwZ872fOvQL0gi6a72EfN872hwZ8f&state=123`
+            var couponId = splitUrl(url).id
+            getCouponInfo(couponId)
         </script>
     </body>
 </html>

@@ -1,7 +1,8 @@
 const log = console.log.bind(console, '***')
 // const path = 'http://jysvn.ngrok.cc'
 // const path = 'http://47.93.124.245:8080'
-const path = 'http://www.jy12348.com'
+// const path = 'http://www.jy12348.com'
+const path = 'http://192.168.1.101:8080/'
 
 // 检查名字
 var checkName = function(name){

@@ -1,3 +1,46 @@
+//
+// var wxAccessToken = function() {
+//     var wxPath = 'https://api.weixin.qq.com/sns/oauth2/access_token'
+//     var wxData = {
+//         appid:'wx21a24ecdc34ee0b0',
+//         secret: '0f8bb27b605bdc8eac8a608acc09fdad',
+//         code:'code',
+//         grant_type:'authorization_code',
+//     }
+//     $.ajax({
+//         url:wxPath,
+//         type:"get",
+//         dataType:"jsonp",
+//         async: true,
+//         data: wxData,
+//         success: function (result) {
+//             log('微信请求发送的数据',wxData)
+//             log('微信请求成功', result)
+//         },
+//         error: function (result) {
+//             log('微信请求失败，发送的数据',wxData)
+//             log('微信请求错误提示', JSON.stringify(result))
+//         },
+//     });
+// }
+// wxAccessToken()
+//
+// var wxRedirect_uri = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx21a24ecdc34ee0b0&redirect_uri=http%3a%2f%2fwxfx.ls12348.cn%2fget-weixin-code.html%3fappid%3dwx21a24ecdc34ee0b0%26scope%3dsnsapi_base%26state%3dhello-world%26redirect_uri%3dhttp%3a%2f%2fwww.jy12348.com%2fccb%2fcoupon%2fregister.html&response_type=code&scope=snsapi_base&state=123#wechat_redirect'
+// var Wx = new WxLogin({
+//     id:"wxLogin",
+//     appid: "wx4523ea5110a03553",
+//     scope: "snsapi_login",
+//     redirect_uri: wxRedirect_uri,
+//     state: "",
+//     style: "",
+//     href: ""
+// })
+// var a  = {"access_token":"2ijoSZGnsHbjb6w711CCywzmIEKMGzusT50w0U6E80aEBoAOGpHZ0FpqaKfP0Q9pYQbOrtOZdzlbJiCC9ttVYKjc2tE-ro0g273cUNMQsb8",
+// "expires_in":7200,
+// "refresh_token":"vWFYwhywMGEDlbuH8qjekvy3XrB0FSEmSiBTT4hk6vZhIyMwg75b_OlETuwiZKtTuikDzZkfsvUk5VEcsNldIh8ZyCjpN7NM2V1H-mBnawU",
+// "openid":"oDX6Sv0TiVaoo1A2h4lR-8wXETi8",
+// "scope":"snsapi_base",
+// "unionid":"orJrts075GJKmWwcv7vT5cliP5vE"}
 
 // 获取 openid
 var getOpenID = function(callback){
@@ -6,7 +49,7 @@ var getOpenID = function(callback){
     // 获取活动id
     var couponId = splitUrl(location.href).id
     log('dddddddd couponId',couponId)
-    getCouponInfo(couponId)
+    // getCouponInfo(couponId)
     if(!window.sessionStorage.getItem("openid")){
         $.ajax({
             url : "http://www.jy12348.com/law/if/ccborder/getOpenId",
@@ -55,7 +98,6 @@ var getOpenID = function(callback){
     };
 }
 
-
 // 优惠券相关
 //  获取优惠券信息
 var getCouponInfo = function(couponId) {
@@ -67,40 +109,38 @@ var getCouponInfo = function(couponId) {
     $.post(url, sendData,function(res) {
         console.log('获取到的优惠券信息', res.data)
         var info = res.data
-        log('info', info)
         appenCoupon(info)
     })
 }
 
 // 转换时间戳
 var timeChange = function(time) {
-    log('time', time)
     var d = new Date(time)
-    var nm = d.getFullYear()
+	var nm = d.getFullYear()
     if (nm.length < 2) {
         nm = '0' + nm
     }
-    var yt = d.getMonth() + 1
+	var yt = d.getMonth() + 1
     if (yt.length < 2) {
         yt = '0' + yt
     }
-    var ri = d.getDate()
+	var ri = d.getDate()
     if (ri.length < 2) {
         ri = '0' + ri
     }
-    var ui = d.getHours()
+	var ui = d.getHours()
     if (ui.length < 2) {
         ui = '0' + ui
     }
-    var ff = d.getMinutes()
+	var ff = d.getMinutes()
     if (ff.length < 2) {
         ff = '0' + ff
     }
-    var mc = d.getSeconds()
+	var mc = d.getSeconds()
     if (mc.length < 2) {
         mc = '0' + mc
     }
-    return `${nm}-${yt}-${ri}`
+	return `${nm}-${yt}-${ri}`
 }
 
 //  优惠券模板
@@ -116,9 +156,8 @@ var couponTemplate = function(couponInfo) {
         title: i.title,
         endDate: timeChange(i.endDate),
         leastMoneyLimit : i.leastMoneyLimit ,
-        notes: i.notes
     }
-    log('截止日期',obj.endDate)
+
     var t = `
     <div class='coupon'>
         <div class="coupon-left">
@@ -133,12 +172,10 @@ var couponTemplate = function(couponInfo) {
         <div class="coupon-right">
             <span class="coupon-right-main">
             <span class="coupon-right-title">${obj.title}</span></br>
-            <p class="coupon-right-info">有效期至 ${obj.endDate}</br>仅限用于${obj.title}</p>
+            <p class="coupon-right-info">有效期至 ${obj.endDate}</br>满 ${obj.leastMoneyLimit} 可用</p>
             </span>
         </div>
     </div>`
-    // 单独修改 活动规则
-    $('.footer-info').text(obj.notes)
     return t
 }
 
@@ -361,12 +398,28 @@ let browserRedirect = function () {
         }
 }
 
+// 替换活动有效期
+var activeTime = function() {
+    // 格式化后的日期 2017-8-22
+    var t = Date.today().add(6).days().toLocaleDateString().replace(/\//g,'-')
+    // 把日期转换成数字做对比
+    var numberT = parseInt(t.split('-').join(''))
+    if (numberT > 2017922) {
+        log('现在是9月22日之后，活动时间定死了')
+        $('.activeTime').tesxt('有效期至 2017-9-28')
+        return
+    }
+    var result = `有效期至 ${t}`
+    log('在9月22日之前有效期至', result)
+    $('.activeTime').text(result)
+}
+
 
 // 刷新页面的时候隐藏所有
 hiddenAll()
 log('页面隐藏了')
 $(document).ready(function(){
-
+    activeTime()
     // $('.bindphone').hide()
     // $('.register').hide()
     // $('.coupon-bg').hide()

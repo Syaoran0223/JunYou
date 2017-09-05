@@ -55,7 +55,6 @@ var getOpenID = function(callback){
     };
 }
 
-
 // 优惠券相关
 //  获取优惠券信息
 var getCouponInfo = function(couponId) {
@@ -133,7 +132,7 @@ var couponTemplate = function(couponInfo) {
         <div class="coupon-right">
             <span class="coupon-right-main">
             <span class="coupon-right-title">${obj.title}</span></br>
-            <p class="coupon-right-info">有效期至 ${obj.endDate}</br>仅限用于${obj.title}</p>
+            <p class="coupon-right-info">有效期至 ${obj.endDate}</br>仅限用于${obj.title}，用券后0元</p>
             </span>
         </div>
     </div>`

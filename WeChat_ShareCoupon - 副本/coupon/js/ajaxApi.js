@@ -1,8 +1,7 @@
 const log = console.log.bind(console, '***')
 // const path = 'http://jysvn.ngrok.cc'
 // const path = 'http://47.93.124.245:8080'
-// const path = 'http://www.jy12348.com'
-const path = 'http://192.168.1.101:8080/'
+const path = 'http://www.jy12348.com'
 
 // 检查名字
 var checkName = function(name){
@@ -107,8 +106,7 @@ var register = function(myPhone, password, relName,openId,couponId) {
     var sendData = {
         myPhone: myPhone,
         password:  hex_md5(password).toUpperCase(),
-        relName: relName,
-        // registerEntrance: 3,
+        relName: relName
     }
     $.post(url, sendData, function(res) {
         log('register sendData', sendData,'返回了res', res)

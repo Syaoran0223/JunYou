@@ -1,3 +1,46 @@
+//
+// var wxAccessToken = function() {
+//     var wxPath = 'https://api.weixin.qq.com/sns/oauth2/access_token'
+//     var wxData = {
+//         appid:'wx21a24ecdc34ee0b0',
+//         secret: '0f8bb27b605bdc8eac8a608acc09fdad',
+//         code:'code',
+//         grant_type:'authorization_code',
+//     }
+//     $.ajax({
+//         url:wxPath,
+//         type:"get",
+//         dataType:"jsonp",
+//         async: true,
+//         data: wxData,
+//         success: function (result) {
+//             log('微信请求发送的数据',wxData)
+//             log('微信请求成功', result)
+//         },
+//         error: function (result) {
+//             log('微信请求失败，发送的数据',wxData)
+//             log('微信请求错误提示', JSON.stringify(result))
+//         },
+//     });
+// }
+// wxAccessToken()
+//
+// var wxRedirect_uri = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx21a24ecdc34ee0b0&redirect_uri=http%3a%2f%2fwxfx.ls12348.cn%2fget-weixin-code.html%3fappid%3dwx21a24ecdc34ee0b0%26scope%3dsnsapi_base%26state%3dhello-world%26redirect_uri%3dhttp%3a%2f%2fwww.jy12348.com%2fccb%2fcoupon%2fregister.html&response_type=code&scope=snsapi_base&state=123#wechat_redirect'
+// var Wx = new WxLogin({
+//     id:"wxLogin",
+//     appid: "wx4523ea5110a03553",
+//     scope: "snsapi_login",
+//     redirect_uri: wxRedirect_uri,
+//     state: "",
+//     style: "",
+//     href: ""
+// })
+// var a  = {"access_token":"2ijoSZGnsHbjb6w711CCywzmIEKMGzusT50w0U6E80aEBoAOGpHZ0FpqaKfP0Q9pYQbOrtOZdzlbJiCC9ttVYKjc2tE-ro0g273cUNMQsb8",
+// "expires_in":7200,
+// "refresh_token":"vWFYwhywMGEDlbuH8qjekvy3XrB0FSEmSiBTT4hk6vZhIyMwg75b_OlETuwiZKtTuikDzZkfsvUk5VEcsNldIh8ZyCjpN7NM2V1H-mBnawU",
+// "openid":"oDX6Sv0TiVaoo1A2h4lR-8wXETi8",
+// "scope":"snsapi_base",
+// "unionid":"orJrts075GJKmWwcv7vT5cliP5vE"}
 
 // 获取 openid
 var getOpenID = function(callback){
@@ -19,6 +62,8 @@ var getOpenID = function(callback){
                 var openId = res.data.openid
                 var newcouponId = splitUrl(location.href).id
                 log('getOpenid请求到的,openId', openId,'couponId',newcouponId)
+                // 根据 couponId 替换图片
+
                 _initButton(openId,newcouponId)
                 // 获取 openid 检查是否有手机号
                 queryOpenId(openId, function(ress,openId) {
@@ -38,7 +83,7 @@ var getOpenID = function(callback){
                         var tel = ress.data.myPhone
                         log('条件3，进入到领取页面','获取到的openId',openId,'couponId',newcouponId)
                         // 绑定用户手机号
-
+                        log('bindOpenId222')
                         bindOpenId(openId, tel, ress,newcouponId)
                         showCoupon()
 
@@ -47,6 +92,7 @@ var getOpenID = function(callback){
 
                 })
 
+                // bindButton(openId)
             },
             error : function(XMLHttpRequest, textStatus, errorThrown) {
                 alert("未知错误，请稍后重试");
@@ -54,7 +100,6 @@ var getOpenID = function(callback){
         });
     };
 }
-
 
 // 优惠券相关
 //  获取优惠券信息
@@ -67,40 +112,38 @@ var getCouponInfo = function(couponId) {
     $.post(url, sendData,function(res) {
         console.log('获取到的优惠券信息', res.data)
         var info = res.data
-        log('info', info)
         appenCoupon(info)
     })
 }
 
 // 转换时间戳
 var timeChange = function(time) {
-    log('time', time)
     var d = new Date(time)
-    var nm = d.getFullYear()
+	var nm = d.getFullYear()
     if (nm.length < 2) {
         nm = '0' + nm
     }
-    var yt = d.getMonth() + 1
+	var yt = d.getMonth() + 1
     if (yt.length < 2) {
         yt = '0' + yt
     }
-    var ri = d.getDate()
+	var ri = d.getDate()
     if (ri.length < 2) {
         ri = '0' + ri
     }
-    var ui = d.getHours()
+	var ui = d.getHours()
     if (ui.length < 2) {
         ui = '0' + ui
     }
-    var ff = d.getMinutes()
+	var ff = d.getMinutes()
     if (ff.length < 2) {
         ff = '0' + ff
     }
-    var mc = d.getSeconds()
+	var mc = d.getSeconds()
     if (mc.length < 2) {
         mc = '0' + mc
     }
-    return `${nm}-${yt}-${ri}`
+	return `${nm}-${yt}-${ri}`
 }
 
 //  优惠券模板
@@ -116,9 +159,8 @@ var couponTemplate = function(couponInfo) {
         title: i.title,
         endDate: timeChange(i.endDate),
         leastMoneyLimit : i.leastMoneyLimit ,
-        notes: i.notes
     }
-    log('截止日期',obj.endDate)
+
     var t = `
     <div class='coupon'>
         <div class="coupon-left">
@@ -133,12 +175,10 @@ var couponTemplate = function(couponInfo) {
         <div class="coupon-right">
             <span class="coupon-right-main">
             <span class="coupon-right-title">${obj.title}</span></br>
-            <p class="coupon-right-info">有效期至 ${obj.endDate}</br>仅限用于${obj.title}</p>
+            <p class="coupon-right-info">有效期至 ${obj.endDate}</br>满 ${obj.leastMoneyLimit} 可用</p>
             </span>
         </div>
     </div>`
-    // 单独修改 活动规则
-    $('.footer-info').text(obj.notes)
     return t
 }
 
@@ -152,8 +192,9 @@ var appenCoupon = function(arr) {
     }
 }
 
-/* 点击事件列表
- 点击事件： 绑定用户手机号(点击领取) */
+// 点击事件列表
+
+// 点击事件： 绑定用户手机号(点击领取)
 var bindButton = function(openId) {
     var button = document.querySelector('#bind-button-bind')
     button.addEventListener('click', function() {
@@ -161,7 +202,7 @@ var bindButton = function(openId) {
         var tel = $('#bind-input-tel').val()
         // 判断手机号
         if (checkTelphone(tel)) {
-
+            log('执行bindOpenId111')
             bindOpenId(openId, tel)
         } else {
 
@@ -204,12 +245,10 @@ var getVerificationCode = function() {
 // 点击事件： 注册用户
 var registerButton = function(openId) {
     log('registerButton opeinId',openId)
-    var o = openId
-    log('test1 oo', o)
     var url1 = 'http://www.jy12348.com/law/if/common/sms';
     var url2 = 'http://www.jy12348.com/law/if/user/register';
     // 判断手机号不为空
-    $('#id-button-register').on('click', function(event,openId) {
+    $('#id-button-register').on('click', function(openID) {
         // 获取 input 值
         var relName = $('#register-input-tel').val()
         var myPhone = $('#register-input-tel').val()
@@ -241,10 +280,9 @@ var registerButton = function(openId) {
                                 log('验证结果',res)
                                 if(res.resultcode === '0000'){
                                // 验证通过后发送数据到后端注册
-                                    log('验证码正确，发送注册ajax,接受到的 openId',openId)
-                                    log('test2 oo', o)
-                                    register(myPhone, password, relName,o)
-                                    bindOpenId(o, myPhone,couponId)
+                                    log('验证码正确，发送注册ajax')
+                                    register(myPhone, password, relName,openId)
+                                    bindOpenId(openId, myPhone,couponId)
 
                                 } else {
                                     alert('验证码错误')
@@ -272,15 +310,6 @@ var getCoupon = function(openId,couponId) {
     })
 }
 
-//  点击事件： 立即使用 ，点击转跳新页面
-var jumpPageButton = function() {
-    $('#coupon-button-coupon').on('click', function() {
-        // location.href = 'http://www.jy12348.com/ccb/coupon/test.html'
-        log('点击到了')
-        browserRedirect()
-    })
-}
-
 // 解析字符串 分解成 object
 var splitUrl = function(url) {
     log('url', url)
@@ -301,8 +330,6 @@ var _initButton = function(openId,couponId) {
     registerButton(openId)
     bindButton(openId)
     getVerificationCode(openId)
-    // 跳转页面
-    jumpPageButton()
     // getCoupon(openId)
 }
 
@@ -340,33 +367,33 @@ let browserRedirect = function () {
         let sUserAgent = navigator.userAgent.toLowerCase();
         let bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
         let bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
-        let bIsMidp = sUserAgent.match(/midp/i) == "midp";
+        // let bIsMidp = sUserAgent.match(/midp/i) == "midp";
         let bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
-        let bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+        // let bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
         let bIsAndroid = sUserAgent.match(/android/i) == "android";
-        let bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+        // let bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
         // let bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
         // document.writeln("您的浏览设备为：");
-        if (bIsIpad || bIsIphoneOs ) {
-                // window.location.href = "ydjyLawWirelessVersion://"
-                // window.setTimeout(function() {
+        if (bIsIpad || bIsIphoneOs || bIsAndroid ) {
+                // alert('是苹果', window.location.href)
+                window.location.href = "ydjyLawWirelessVersion://";//ios app协议
+                // alert('跳转后',window.location.href)
+                window.setTimeout(function() {
                 window.location.href ="https://itunes.apple.com/cn/app/id1061528563"
-                // }, 2000)
-        } else if (bIsAndroid){
-            // alert('是安卓')
-                // window.location.href = "lvshitongxing://";//android app协议
-                // window.setTimeout(function() {
-                window.location.href = "http://a.app.qq.com/o/simple.jsp?pkgname=com.fjjy.lawapp";//android 下载地址
-            // }, 2000)
+                }, 2000)
+        } else if (bIsAndroid ){
+            alert('是安卓')
+                window.location.href = "com.baidu.tieba://app";//android app协议
+                window.setTimeout(function() {
+                window.location.href = "https://****.apk";//android 下载地址
+            }, 2000)
         }
 }
-
-
+browserRedirect()
 // 刷新页面的时候隐藏所有
 hiddenAll()
 log('页面隐藏了')
 $(document).ready(function(){
-
     // $('.bindphone').hide()
     // $('.register').hide()
     // $('.coupon-bg').hide()
@@ -375,10 +402,9 @@ $(document).ready(function(){
             // log('data', data)
         })
     } else {
-        hiddenAll()
         alert('不是在微信')
-        // browserRedirect()
-        // showRegister()
-        // showCoupon()
+        browserRedirect()
+        showRegister()
+        showCoupon()
     }
 });

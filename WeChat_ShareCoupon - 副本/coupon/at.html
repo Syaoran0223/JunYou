@@ -34,10 +34,7 @@
         </div>
         <script src="./js/fuzhuxian.js" charset="utf-8"></script>
         <script>
-        var append = function(t) {
-            return
-        }
-        append('执行了js')
+        var log = console.log.bind(console, '***')
 
         // 判断是否是微信浏览器
         function isWechat(){
@@ -62,7 +59,7 @@
             let bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
             // document.writeln("您的浏览设备为：");
             if (bIsIpad || bIsIphoneOs ) {
-                // append('苹果', sUserAgent)
+
                     $('.banner').show()
                     window.location.href = "ydjyLawWirelessVersion://"
                     window.setTimeout(function() {
@@ -95,28 +92,72 @@
             })
         }
 
+        // 解析 URL
+        var splitUrl = function(url) {
+            log('url', url)
+            url = url.split('?')[1].split('&')
+            var obj = {}
+            url.map((e) => {
+                var [k,v] = e.split('=')
+                obj[k] = v
+            })
+            log('splitUrl', obj,'id',obj.id)
+            return obj
+        }
+
+
         var androidInit = function( ) {
             noButton()
             yesBututton()
             $('.android').show()
         }
+
         var pageInit = function () {
             $('.banner').show()
             $('.android').hide()
         }
         pageInit()
 
-        append('载入前读取</br>')
+        var getOpenID = function(callback){
+            //截取code,获取openID
+            var code = splitUrl(location.href).code;
+            var appid = 'wx21a24ecdc34ee0b0'
+            var appsecret = '0f8bb27b605bdc8eac8a608acc09fdad'
+            // 获取活动id
+            var couponId = splitUrl(location.href).id
+            log('dddddddd couponId',couponId)
+            // getCouponInfo(couponId)
+            if(!window.sessionStorage.getItem("openid")){
+                $.ajax({
+                    url : "https://api.weixin.qq.com/sns/oauth2/access_token",
+                    type : "post",
+                    dataType : "json",
+                    data : {
+                        appid: appid,
+                        secret:appsecret,
+                        code : code,
+                        grant_type:'authorization_code' ,
+                    },
+                    success : function(res){
+                        log('res',res)
+                    },
+                    error : function(XMLHttpRequest, textStatus, errorThrown) {
+                        alert("未知错误，请稍后重试");
+                    }
+                });
+            };
+        }
+
         // 页面加载后执行
         $(document).ready(function() {;
-            append('读取完成</br>')
+
             let sUserAgent = navigator.userAgent.toLowerCase();
-            // append(sUserAgent)
+
             if (isWechat()) {
-                append('在微信浏览器内')
+                getOpenID()
             } else  {
-                // append('在外部浏览器')
-                browserRedirect()
+
+
             }
 
         });

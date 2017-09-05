@@ -151,78 +151,78 @@
         	return `${nm}-${yt}-${ri}`
         }
         //  优惠券模板
-            var couponTemplate = function(couponInfo) {
-                // 折扣        discountMoney
-                // 优惠券名称   title
-                // 有效期      endDate
-                // 满xx可用    leastMoneyLimit
-                var i = couponInfo
-                // 有效期转换
-                var obj = {
-                    discountMoney: i.discountMoney,
-                    title: i.title,
-                    endDate: timeChange(i.endDate),
-                    leastMoneyLimit : i.leastMoneyLimit ,
-                    notes: i.notes
-                }
-                log('截止日期',obj.endDate)
-                var t = `
-                <div class='coupon'>
-                    <div class="coupon-left">
-                        <span class="coupon-left-text">
-                            <img id="id-bg"src="./image/bg.png" alt="">
-                            <span class="coupon-left-top">优惠券</span>
-                            <span class="coupon-left-middle"><span class="money">￥</span>${obj.discountMoney}</span>
-                            <span class="line"></span>
-                            <span class="coupon-left-bottom">可 使 用</span>
-                        </span>
-                    </div>
-                    <div class="coupon-right">
-                        <span class="coupon-right-main">
-                        <span class="coupon-right-title">${obj.title}</span></br>
-                        <p class="coupon-right-info">有效期至 ${obj.endDate}</br>仅限用于${obj.title}，用券后0元</p>
-                        </span>
-                    </div>
-                </div>`
-                // 单独修改 活动规则
-                $('.footer-info').text(obj.notes)
-                return t
+        var couponTemplate = function(couponInfo) {
+            // 折扣        discountMoney
+            // 优惠券名称   title
+            // 有效期      endDate
+            // 满xx可用    leastMoneyLimit
+            var i = couponInfo
+            // 有效期转换
+            var obj = {
+                discountMoney: i.discountMoney,
+                title: i.title,
+                endDate: timeChange(i.endDate),
+                leastMoneyLimit : i.leastMoneyLimit ,
+                notes: i.notes
             }
-            // 页面中添加优惠券
-            var appenCoupon = function(arr) {
-                var coupon = document.querySelector('.coupon-list')
-                for (var i = 0; i < arr.length; i++) {
-                    var c = arr[i]
-                    var t = couponTemplate(c)
-                    coupon.insertAdjacentHTML('beforeend', t)
-                }
+            log('截止日期',obj.endDate)
+            var t = `
+            <div class='coupon'>
+                <div class="coupon-left">
+                    <span class="coupon-left-text">
+                        <img id="id-bg"src="./image/bg.png" alt="">
+                        <span class="coupon-left-top">优惠券</span>
+                        <span class="coupon-left-middle"><span class="money">￥</span>${obj.discountMoney}</span>
+                        <span class="line"></span>
+                        <span class="coupon-left-bottom">可 使 用</span>
+                    </span>
+                </div>
+                <div class="coupon-right">
+                    <span class="coupon-right-main">
+                    <span class="coupon-right-title">${obj.title}</span></br>
+                    <p class="coupon-right-info">有效期至 ${obj.endDate}</br>仅限用于${obj.title}，用券后0元</p>
+                    </span>
+                </div>
+            </div>`
+            // 单独修改 活动规则
+            $('.footer-info').text(obj.notes)
+            return t
+        }
+        // 页面中添加优惠券
+        var appenCoupon = function(arr) {
+            var coupon = document.querySelector('.coupon-list')
+            for (var i = 0; i < arr.length; i++) {
+                var c = arr[i]
+                var t = couponTemplate(c)
+                coupon.insertAdjacentHTML('beforeend', t)
             }
-            // 获取优惠券信息
-            var getCouponInfo = function(couponId) {
-                log('getCouponInfo里的 couponId', couponId)
-                var url = path + '/law/if/v2/promotionalActivity/promotionalActivityCouponList'
-                var sendData = {
-                    promotionalActivityId: couponId,
-                }
-                $.post(url, sendData,function(res) {
-                    console.log('获取到的优惠券信息', res.data)
-                    var info = res.data
-                    log('info', info)
-                    appenCoupon(info)
-                })
+        }
+        // 获取优惠券信息
+        var getCouponInfo = function(couponId) {
+            log('getCouponInfo里的 couponId', couponId)
+            var url = path + '/law/if/v2/promotionalActivity/promotionalActivityCouponList'
+            var sendData = {
+                promotionalActivityId: couponId,
             }
+            $.post(url, sendData,function(res) {
+                console.log('获取到的优惠券信息', res.data)
+                var info = res.data
+                log('info', info)
+                appenCoupon(info)
+            })
+        }
 
-            // 解析字符串 分解成 object
-            var splitUrl = function(url) {
-                url = url.split('?')[1].split('&')
-                var obj = {}
-                url.map((e) => {
-                    var [k,v] = e.split('=')
-                    obj[k] = v
-                })
-                log('splitUrl', obj,'id',obj.id)
-                return obj
-            }
+        // 解析字符串 分解成 object
+        var splitUrl = function(url) {
+            url = url.split('?')[1].split('&')
+            var obj = {}
+            url.map((e) => {
+                var [k,v] = e.split('=')
+                obj[k] = v
+            })
+            log('splitUrl', obj,'id',obj.id)
+            return obj
+        }
 
             var url = `http://www.jy12348.com/ccb/coupon/coupon.html?id=16&code=071hwZ872fOvQL0gi6a72EfN872hwZ8f&state=123`
             var couponId = splitUrl(url).id

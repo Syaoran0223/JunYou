@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>绑定手机</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link rel="stylesheet" href="./css/base.css">
+        <!-- <link rel="stylesheet" href="./css/shared.css"> -->
+        <link rel="stylesheet" href="./css/share.css">
+        <script src="./js/jquery.min.js"></script>
+    </head>
+    <body>
+        <div class="banner"></div>
+        <!-- 切换区域 -->
+        <div class="bg">
+            <div class="bindphone">
+                <div class="user-input">
+                    <div class="user">
+                        <div class="userImg">
+                            <img id='id-user-img'src="" alt="">
+                        </div>
+                        <div class="userName">
+                            用户
+                        </div>
+                    </div>
+                    <div class="input-phone">
+                        <div class="input-img"><img src="./image/user.png" albt=""></div>
+                        <input class="inputs" id='bind-input-tel'type="text" placeholder="请输入手机号码">
+                    </div>
+                </div>
+                <div class="login">
+                    <button id='bind-button-bind'type="button" name="button">绑定号码</button>
+                </div>
+            </div>
+            <div class="register">
+                <div class="user-input">
+                    <div class="input-phone">
+                        <div class="input-img"><img src="./image/user.png" albt=""></div>
+                        <input class="inputs" id='register-input-tel'type="text" placeholder="请输入手机号码">
+                    </div>
+                    <div class="input-phone">
+                        <!-- <img src="./image/shild.png" albt=""> -->
+                        <div class="input-img"><img src="./image/shild.png" albt=""></div>
+                        <input class="inputs" id='register-input-shild'type="text" placeholder="请输入验证码">
+                        <button class="validate" id='register-button-validae'type="button" name="button">获取验证码</button>
+                    </div>
+                    <div class="input-phone">
+                        <!-- <img src="./image/password.png" albt=""> -->
+                        <div class="input-img"><img src="./image/password.png" albt=""></div>
+                        <input class="inputs" id='register-input-password'type="password" placeholder="请输入密码">
+                    </div>
+                    <div class="login">
+                        <button id='id-button-register' type="button" name="button">用户登录</button>
+                    </div>
+                </div>
+            </div>
+            <div class="coupon-bg">
+                <div class="coupon">
+                    <div class="coupon-left">
+                        <span class="coupon-left-text">
+                            <img id="id-bg"src="./image/bg.png" alt="">
+                            <span class="coupon-left-top">优惠券</span>
+                            <span class="coupon-left-middle"><span class="money">￥</span>100</span>
+                            <span class="line"></span>
+                            <span class="coupon-left-bottom">可 使 用</span>
+                        </span>
+                    </div>
+                    <div class="coupon-right">
+                        <span class="coupon-right-main">
+                        <span class="coupon-right-title">合同审查优惠红包</span></br>
+                        <p class="coupon-right-info">有效期至2017-08-21</br>满500可用</p>
+                        </span>
+                    </div>
+                </div>
+                <div class="coupon-info">
+                    优惠券已放入账号：15959007364
+                </div>
+                <div class="button">
+                    <button id="coupon-button-coupon"type="button" name="button">立即使用</button>
+                </div>
+            </div>
+        </div>
+        <!-- 底部信息 -->
+        <div class="footer">
+            <div class="footer-text">
+                <span class="footer-title">活动规则</br></span>
+                <p class="footer-info">
+                    1.优惠券新老用户通用；</br>
+                    2.优惠券仅限在律师同行最新客户端下单且选择在线支付时使用；</br>
+                    3.仅限在线支付使用，且使用人手机号、领取优惠券时输入的手机号和律师同行APP的账号需为同一个手机号。</br>
+                </p>
+            </div>
+        </div>
+        <script src="./js/fuzhuxian.js" charset="utf-8"></script>
+        <script src="./js/md5.js" charset="utf-8"></script>
+        <script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
+        <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+        <script src="./js/ajaxApi.js" charset="utf-8"></script>
+        <script>
+            // 获取 openid
+            var getOpenID = function(callback){
+                //截取code,获取openID
+                var code = parseURL(location.href).params.code;
+                if(!window.sessionStorage.getItem("openid")){
+                    $.ajax({
+                        url : "http://www.jy12348.com/law/if/ccborder/getOpenId",
+                        type : "post",
+                        dataType : "json",
+                        data : {
+                            code : code
+                        },
+                        success : function(res){
+                            var openId = res.data.openid
+                            log('openId', openId)
+                            _initButton(openId)
+                            // 获取 openid 检查是否有手机号
+                            queryOpenId(openId, function(ress) {
+                                // 设置页面文字
+                                var tempPhone = `优惠券已经放入账号: ${ress.myPhone}`
+                                $('.userName').text(tempPhone)
+                                var tempName = `优惠券已经放入账号: ${ress.relName}`
+                                $('.coupon-info').text(tempName)
+                                $('#id-user-img')[0].src = ress.photo
+
+                                // var tempPhtot = `优惠券已经放入账号: ${ress.photo}`
+
+                                log('通过openID获取的返回值',ress.data,'phone', ress.data.myPhone)
+                                if (res.data == null) {
+                                    // alert('queryOpenId null')
+                                    log('queryOpenId 返回 null,进入注册页面')
+                                    $('.coupon-bg').hide()
+                                    $('.bindphone').show()
+                                    // 开始注册事件
+                                }
+                                if(res.data.myPhone == null){
+                                    log('queryByOpenId 返回有数据 没有电话，进入绑定页面', 'myPhone',ress.data.myPhone)
+                                    $('coupon-bg').hide()
+                                    $('.register').hide()
+                                    $('.bindphone').show()
+                                }
+                                if(res != null && ress.data.myPhone){
+                                    log('账户已经注册 进入领取页面','myPhone',ress.data.myPhone)
+                                    $('.bindphone').show()
+                                    $('.register').hide()
+                                    // $('.coupon-bg').show()
+                                    $('.coupon-bg').hide()
+                                    // $('.register').show()
+                                }
+                            })
+                            // var tel = $('#bind-input-tel').val()
+                            // bindOpenId(openId, tel)
+                            bindButton(openId)
+                        },
+                        error : function(XMLHttpRequest, textStatus, errorThrown) {
+                            alert("未知错误，请稍后重试");
+                        }
+                    });
+                };
+            }
+
+            // 点击事件列表
+            // 点击事件： 绑定用户手机号
+            var bindButton = function(openId) {
+                var button = document.querySelector('#bind-button-bind')
+                button.addEventListener('click', function() {
+                    var tel = $('#bind-input-tel').val()
+                    log('bindButton tel', tel)
+                    // 判断手机号
+                    var result = checkTelphone(tel) || alert('请输入正确的手机号')
+                    if (result) {
+                    }
+                        bindOpenId(openId, tel)
+                })
+            }
+
+            // 点击事件： 发送验证码
+            var getVerificationCode = function() {
+                $('#register-button-validae').on('click',function(){
+                    var url = 'http://www.jy12348.com/law/if/common/sms';
+                    var myphone = $('#register-input-tel').val();
+                    if(checkTelphone(myphone)){
+                      $.ajax({
+                        url: url,
+                        type: 'GET',
+                        dataType: 'JSON',
+                        data: {
+                          myphone: myphone,
+                          status: 0,
+                          idcode: 1
+                        },
+                        success: function(res){
+                            if(res.resultcode === '0000'){
+                            log("验证码 发送成功");
+                          }else{
+                            alert(res.resultdesc);
+                          }
+                        }
+                      });
+                    }else{
+                      alert('请输入正确的手机号');
+                    }
+                  });
+            }
+
+            // 点击事件： 注册用户
+            var registerButton = function() {
+                var url1 = 'http://www.jy12348.com/law/if/common/sms';
+                var url2 = 'http://www.jy12348.com/law/if/user/register';
+                // 判断手机号不为空
+                $('#id-button-register').on('click', function() {
+                    // 获取 input 值
+                    var relName = $('#register-input-tel').val()
+                    var myPhone = $('#register-input-tel').val()
+                    var password =$('#register-input-password').val()
+                    // 验证码
+                    log('点击到了 用户登录 按钮','relName', relName,'myPhone', myPhone, 'password', password)
+                    if (relName == '' || myPhone =='') {
+                        return alert('账号密码不能为空')
+                    } else {
+                        if (checkTelphone(myPhone)) {
+                        // 密码不为空
+                            log('手机号码正确')
+                            if (password != '') {
+                                log('密码正确')
+                                var validate = $('#register-input-shild').val()
+                                // 判断验证码
+                                // if (validate != '') {
+                                //     log('验证码正确，不为空')
+                                //     $.ajax({
+                                //         url: url1,
+                                //         type: 'GET',
+                                //         dataType: 'JSON',
+                                //         async: false,
+                                //         data: {
+                                //           myphone: myPhone,
+                                //           smsnum: validate
+                                //         },
+                                //         success: function(res){
+                                //             log('验证正确')
+                                //             if(res.resultcode === '0000'){
+                                                // 验证通过后发送数据到后端注册
+                                                log('验证码正确，发送注册ajax')
+                                                register(myPhone, password, relName)
+                                            // }
+                                    //     }
+                                    // })
+                                // } else {
+                                //     log('没有输入验证码')
+                                // }
+
+                            } else {
+                            alert('密码错误')
+                        }
+                    } else {
+                        alert('手机号错误')
+                    }
+                }
+                })
+            }
+
+            // 点击事件：领取优惠券
+            var getCoupon = function(openId) {
+                $('#coupon-button-coupon').on('click', function() {
+                    log('点击到了立即使用')
+                    getCouponByOpenId(openId)
+                })
+            }
+
+            //  1. myphone 和 relName 都是手机号
+            //  2. 获取验证码功能
+            //  3. 点击按钮：
+                    // 1 验证手机号 密码不为空切格式正确
+                    // 2 判断 验证码正确
+                    // 3 注册用户请求
+
+            // 隐藏界面
+            // $('.bindphone').hide()
+            $('.register').hide()
+            $('.coupon-bg').hide()
+
+            // 初始化
+            var _initButton = function(openId) {
+                // 点击事件
+                registerButton()
+                bindButton(openId)
+                getVerificationCode(openId)
+                // register()
+                getCoupon(openId)
+            }
+            // 页面读取完成后执行
+            $(document).ready(function(){
+                // 绑定手机号
+                // registerButton()
+                if(isWechat()) {
+                    getOpenID(function(data) {
+                        log('data', data)
+                    })
+                }
+            });
+        </script>
+    </body>
+</html>

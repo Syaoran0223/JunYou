@@ -1,0 +1,76 @@
+body, p, h1, h2, h3, h4, h5, h6, ul, ol, li, dl, dt, dd, table, th, td, form, fieldset, legend, input, textarea, button, select {
+	font-family: "microsoft yahei", Verdana, Arial, Helvetica, sans-serif;
+	font-size: 1em;
+	margin: 0;
+	padding: 0;
+}
+html{}
+body {
+	font-size: 1em;
+	font-family:"微软雅黑"; background:#18b4ed;
+} 
+img, fieldset {
+	border: 0 none;
+}
+ul, ol {
+	list-style: outside none none;
+}
+em, address {
+	font-style: normal;
+}
+a {
+	color: #414040;
+	text-decoration: none;
+}
+table {
+	border-collapse: collapse;
+}
+.clearfix::after {
+ clear: both;
+ content: ".";
+ display: block;
+ height: 0;
+ visibility: hidden;
+}
+input {
+	outline: medium none;
+}
+.fl {
+	float:left;
+}
+.fr {
+	float:right;
+}
+.ov {
+	overflow:hidden;
+}
+/**/
+.content {width: 100%;	margin: 0 auto; font-size:14px;background:url(../images/bg2.png) top center no-repeat; background-size:100%;}
+@media screen and (min-width: 480px) {
+.content {
+ font-size:20px;
+}
+}
+@media screen and (min-width: 640px) {
+.content {
+ font-size:28px;
+}
+}
+.wrap{ margin:0 2.5em; text-align:center;}
+.tit01{ margin:2.5em 0 1.07em 0; width:14.7857em; height:4.8214em;}
+.download{ background:url(../images/x.png) bottom no-repeat; width:100%; overflow:hidden; background-size:100%; padding-bottom:2px}
+.phone{ float:left; background:url(../images/phone.png) no-repeat; width:7.1428em;height:9.6428em; background-size:100%;}
+.phone img{ margin:28.5% 0 0 0; width:74%; height:54.8%;}
+.phone p{ font-size:0.7em; color:#fff; line-height:2em;}
+.button-fr{ width:56%; float:right;}
+.button-dl{  cursor:pointer; background:none; display:block; width:100%; height:2.5em; line-height:2.5em; border:1px solid #ffffff; border-radius:8px; color:#fff;}
+.button-dl.ios{ margin:1.4285em 0 1.785em 0;}
+.sharedcode{ padding:3.1em 0 0 3.9em; position:relative;}
+.sharedcode.nop{ padding:0.83em 0 0 3.9em;}
+.tx{ width:3.75em; height:3.75em; position: absolute; left:0; top:2.6428em;}
+.codewrap{ position:relative; height:3.0714em; line-height:3.0714em; color:#161616; padding-left:0.5em;}
+.jt{  width:0.5em; height:0.60714em; display:block; left:0em; background:url(../images/ico.png) no-repeat; top:1.2em;position:absolute;}
+.code{ position:relative; background:#90dbf6; border-radius:8px; height:3.0714em; color:#161616; font-size:1.1em; line-height:3.0714em; }
+.copy{ position:relative; background:#23a1cf; border:1px solid #fff; height:2.5em; line-height:2.5em; color:#fff; border-radius:8px; cursor:pointer; }
+.tit02{ width:9.928em; height:3.5357em; margin:2em 0;}
+

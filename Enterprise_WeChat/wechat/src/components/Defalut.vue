@@ -6,14 +6,8 @@
 </template>
 
 <script>
-import vFooter from '@/components/Footer/footer'
-
+import vFooter from '@/components/footer/footer'
 export default {
-    data() {
-        return {
-
-        }
-    },
     components:{
         vFooter
     }

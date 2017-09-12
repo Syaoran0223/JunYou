@@ -60,7 +60,8 @@ var getOpenID = function(callback){
 //  获取 标题 和 Banner 图片
 var getCouponImg = function(couponId) {
     log('getCouponInfo里的 couponId', couponId)
-    var url = 'http://47.93.124.245:8099/law/if/v2/promotionalActivity/promotionalActivityDetail'
+
+    var url = path  + '/law/if/v2/promotionalActivity/promotionalActivityDetail'
     var sendData = {
         promotionalActivityId: couponId,
     }
@@ -86,7 +87,7 @@ var getCouponImg = function(couponId) {
 //  获取优惠券信息
 var getCouponInfo = function(couponId) {
     log('getCouponInfo里的 couponId', couponId)
-    var url = 'http://47.93.124.245:8099/law/if/v2/promotionalActivity/promotionalActivityCouponList'
+        var url = path  + '/law/if/v2/promotionalActivity/promotionalActivityCouponList'
     var sendData = {
         promotionalActivityId: couponId,
     }

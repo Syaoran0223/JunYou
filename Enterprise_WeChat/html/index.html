@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>标题</title>
+        <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+    </head>
+    <body>
+        <div class="">
+            11
+        </div>
+        <script type="text/javascript">
+        const log = console.log.bind(console, '***')
+        var tokenGet = function() {
+            $.get('http://59.110.223.182:8085/weixin/AccessToken', function(res) {
+                log('res', res)
+            })
+        }
+        tokenGet()
+        </script>
+    </body>
+</html>

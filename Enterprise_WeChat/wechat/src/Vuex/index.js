@@ -11,6 +11,7 @@ export default new Vuex.Store({
   state: {
     temp1: 1,
     temp2: 2,
-    AccessToken: ''
+    AccessToken: '' ,
+    text:'text',
   },
 })

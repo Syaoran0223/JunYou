@@ -1,4 +1,4 @@
-let Ajax = function(request) {
+export default function(request) {
     let req = {
          url: request.url,
          // data 传对象
@@ -23,7 +23,7 @@ let Ajax = function(request) {
                      req.callback(res)
                  }
                  // Promise 成功
-                 success(res)
+                 success(JSON.parse(res))
              }
          }
          r.onerror = function (err) {
@@ -38,11 +38,11 @@ let Ajax = function(request) {
      })
      return promise
 }
-
-var request = {
-    url : 'http://59.110.223.182:8085/weixin/AccessToken',
-    method: 'GET',
-}
-Ajax(request).then(res => {
-        console.log('res', res)
-})
+// export default Ajax
+// var request = {
+//     url : 'http://59.110.223.182:8085/weixin/AccessToken',
+//     method: 'GET',
+// }
+// Ajax(request).then(res => {
+//         console.log('res', res)
+// })

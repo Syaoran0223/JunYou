@@ -3,8 +3,8 @@
 import Vue from 'vue'
 import Default from '@/components/Defalut'
 import router from './router'
-import Store from './Vuex/'
-import ajax from './tool/ajax'
+import store from './Vuex/'
+import Ajax from '@/tool/ajax'
 // 解决 300ms 点击延迟
 import fastclick from 'fastclick'
 fastclick.attach(document.body)
@@ -16,7 +16,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
-  Store,
+  store,
   template: '<Default/>',
   components: { Default }
 })

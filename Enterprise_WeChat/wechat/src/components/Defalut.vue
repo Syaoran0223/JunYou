@@ -1,12 +1,12 @@
 <template>
   <div class="Template">
       <router-view></router-view>
-      <vFooter></vFooter>
+      <!-- <vFooter></vFooter> -->
   </div>
 </template>
 
 <script>
-import vFooter from '@/components/Footer/footer'
+// import vFooter from '@/components/Footer/footer'
 
 export default {
     data() {
@@ -14,9 +14,9 @@ export default {
 
         }
     },
-    components:{
-        vFooter
-    }
+    // components:{
+    //     vFooter
+    // }
 }
 </script>
 

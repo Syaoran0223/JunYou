@@ -15,10 +15,45 @@
                     </div></router-link>
             </div>
         </div>
+        <div class="">
+        </br>
+    </br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+        </br>
+        111
+        </div>
+        <v-footer></v-footer>
     </div>
 </template>
 
 <script>
+import Ajax from '@/tool/ajax'
+import vFooter from '@/components/Home/footer'
 export default {
     data() {
         return {
@@ -67,33 +102,61 @@ export default {
                 {
                     src:'轮播图片6'
                 },
-            ]
+            ],
         }
+    },
+    components: {
+        'v-footer': vFooter,
     },
     mounted: function() {
         this.$nextTick(function() {
             this.slide()
+            this.pathGet()
+            this.getAccesstoken()
         })
     },
     methods: {
+        // 轮播图设置
         slide() {
             new Swiper('.swiper-container', {
-               pagination: '.swiper-pagination',
-               nextButton: '.swiper-button-next',
-               prevButton: '.swiper-button-prev',
-               paginationClickable: true,
-               spaceBetween: 30,
-               centeredSlides: true,
-               autoplay: 2500,
-               autoplayDisableOnInteraction: false,
-               loop:true,
+                pagination: '.swiper-pagination',
+                nextButton: '.swiper-button-next',
+                prevButton: '.swiper-button-prev',
+                paginationClickable: true,
+                spaceBetween: 30,
+                centeredSlides: true,
+                autoplay: 2500,
+                autoplayDisableOnInteraction: false,
+                loop:true,
            })
-        }
-    }
+        },
+       //    获取路径
+        pathGet() {
+            var currentPath = location.href
+            console.log(currentPath)
+        },
+       //    获取并储存 accesstoken
+        getAccesstoken() {
+            let path = this.$store.state.path
+            let url = path + '/weixin/AccessToken'
+            var request = {
+               url : url,
+               method: 'GET',
+           }
+            Ajax(request).then(e=> {
+                let token = e.access_token
+                this.$store.commit('accessTokenSave', token)
+                console.log('测试', this.$store.state.AccessToken)
+            })
+        },
+    },
 }
 </script>
 
 <style lang="css">
+    .Home {
+        margin-bottom: 80px;
+    }
     /*轮播图*/
     .swiper-container {
         height: 200px;

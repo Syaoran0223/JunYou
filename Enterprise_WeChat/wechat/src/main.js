@@ -12,6 +12,7 @@ fastclick.attach(document.body)
 import 'lib-flexible'
 Vue.config.productionTip = false
 
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

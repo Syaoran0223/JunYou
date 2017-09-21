@@ -23,7 +23,7 @@ export default function(request) {
                      req.callback(res)
                  }
                  // Promise 成功
-                 success(JSON.parse(res))
+                 success(res)
              }
          }
          r.onerror = function (err) {

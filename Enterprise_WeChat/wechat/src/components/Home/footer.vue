@@ -2,7 +2,16 @@
     <div class="v-footer" >
         <div class="v-footer-index"v-for='(f, index) in footerList' :class="{'v-footer-show': index ==currentIndex}"
         @click="currentIndex = index">
-            <router-link :to='f.to'>{{ f.titile }}</router-link>
+            <router-link :to='f.to'>
+                <div class="footerMain" >
+                    <div class="footerImg">
+                        <img :src="f.src" alt="">
+                    </div>
+                    <div class="footerTitle" :class='f.class'>
+                        {{ f.title }}
+                    </div>
+                </div>
+            </router-link>
         </div>
     </div>
 </template>
@@ -15,11 +24,14 @@ export default {
             footerList: [
                 {
                     to: '/',
-                    titile: '首页',
+                    title: '首页',
+                    src:'static/images/home/shouye.png',
                 },
                 {
                     to: '/server',
-                    titile: '服务记录',
+                    title: '服务记录',
+                    src:'static/images/home/fuwujilu2.png',
+                    class:'unclick',
                 },
             ]
         }
@@ -29,32 +41,44 @@ export default {
 
 <style lang="css">
     .v-footer {
+        width: 100%;
+        height: 80px;
+        /*background: red;*/
         position: fixed;
         bottom: 0px;
-        height: 80px;
-        line-height: 80px;
-        width: 100%;
         display: flex;
-        justify-content:space-around;
+        justify-content: space-around;
         text-align: center;
-        font-size: 20px;
-        margin-top: 30px;
+        background: white;
     }
-    .v-footer div {
+    .v-footer a {
+        text-decoration: none;
         width: 100%;
         height: 100%;
+    }
+    .v-footer-index {
+        width: 100%;
+        height: 80px;
+    }
+    .footerImg {
+        margin-top: 12px;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 36px;
+        height: 36px;
+        /*margin: 0 auto;*/
+    }
+    .footerImg img {
+        width: 100%;
+        height: 100%;
+    }
+    .footerTitle {
+        font-size: 16px;
+        color:#8fbeff;
+    }
+    .unclick {
+        color: #d2e5ff;
     }
 
-    .v-footer div a{
-        text-decoration: none;
-        display: block;
-        width: 100%;
-        height: 100%;
-        font-size: 30px;
-        background: #6A7D8F;
-    }
-    .v-footer-show a{
-        background: #A4B3C1;
-        z-index: 100;
-    }
 </style>

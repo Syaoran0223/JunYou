@@ -1,13 +1,14 @@
 <template>
   <div class="Template">
-      <router-view></router-view>
+      <keep-alive>
+          <router-view></router-view>
+      </keep-alive>
       <!-- <vFooter></vFooter> -->
   </div>
 </template>
 
 <script>
 // import vFooter from '@/components/Footer/footer'
-
 export default {
     data() {
         return {

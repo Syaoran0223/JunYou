@@ -1,197 +1,207 @@
 <template lang="html">
     <div class="Home" >
-        <!-- 轮播图 -->
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide" v-for='s in slideList'>{{s.src }}</div>
-            </div>
-        </div>
+        <v-slide></v-slide>
         <!-- 导航 -->
         <div class="navList">
-            <div class="nav" v-for='n in navList'>
-                <router-link :to='n.link'>
-                    <div class="">
-                        {{ n.title }}
-                    </div></router-link>
+            <div class="navBlock">
+                <div class="nav" v-for='n in navList'>
+                    <router-link :to='n.link'>
+                        <div class="navInfo" :class='n.class'>
+                            <div class="navImg">
+                                <img :src="n.src" alt="">
+                            </div>
+                            <div class="navTitle">
+                                {{ n.title }}
+                            </div>
+                        </div>
+                    </router-link>
+                </div>
             </div>
         </div>
-        <div class="">
-        </br>
-    </br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-        </br>
-        111
-        </div>
+        <v-news></v-news>
+        <!-- <v-download></v-download> -->
         <v-footer></v-footer>
     </div>
 </template>
 
 <script>
-import Ajax from '@/tool/ajax'
+import vDownLoad from '@/components/Home/download'
+import vSlide from '@/components/Home/slide'
+import vNews from '@/components/Home/news'
 import vFooter from '@/components/Home/footer'
+import Ajax from '@/tool/ajax'
 export default {
     data() {
         return {
+            link: '/ccb/qiye',
             navList: [
                 {
-                    title: '线上法律咨询',
-                    link:'/',
+                    title: '线上咨询',
+                    src:'static/images/home/xianshangzixun.png',
+                    class:'navMargin1',
+                    link: '/online',
                 },
                 {
                     title: '电话咨询',
-                    link:'/server',
+                    src:'static/images/home/dianhuazixun.png',
+                    class:'navMargin2',
+                    link: '/phone',
                 },
                 {
                     title: '合同模板',
-                    link:'/',
+                    src:'static/images/home/hetongmuban.png',
+                    class:'navMargin3',
+                    link:  '/template',
                 },
                 {
                     title: '合同定制',
-                    link:'/',
+                    src:'static/images/home/hetongdingzhi.png',
+                    class:'navMargin1',
+                    link: '/customize',
                 },
                 {
                     title: '合同审查',
-                    link:'/',
+                    src:'static/images/home/hetongshencha.png',
+                    class:'navMargin2',
+                    link: '/review',
                 },
                 {
-                    title: '案件委托',
-                    link:'/',
-                },
-            ],
-            slideList: [
-                {
-                    src:'轮播图片1'
-                },
-                {
-                    src:'轮播图片2'
-                },
-                {
-                    src:'轮播图片3'
-                },
-                {
-                    src:'轮播图片4'
-                },
-                {
-                    src:'轮播图片5'
-                },
-                {
-                    src:'轮播图片6'
+                    title: '智能合同',
+                    src:'static/images/home/zhinenghetong.png',
+                    class:'navMargin3',
+                    link: '/commission',
                 },
             ],
         }
     },
-    components: {
-        'v-footer': vFooter,
-    },
     mounted: function() {
         this.$nextTick(function() {
-            this.slide()
-            this.pathGet()
-            this.getAccesstoken()
+            // this.pathGet()
+            // this.accesstokenGet()
+            // this.codeGet()
+            // 获取用户信息
+            // this.userInfoGet()
         })
     },
     methods: {
-        // 轮播图设置
-        slide() {
-            new Swiper('.swiper-container', {
-                pagination: '.swiper-pagination',
-                nextButton: '.swiper-button-next',
-                prevButton: '.swiper-button-prev',
-                paginationClickable: true,
-                spaceBetween: 30,
-                centeredSlides: true,
-                autoplay: 2500,
-                autoplayDisableOnInteraction: false,
-                loop:true,
-           })
+       //    获取当前页面路径
+        codeGet() {
+            let url = location.href
+            let code = url.split('code=')[1]
+           this.$store.commit('codeSave', code)
         },
-       //    获取路径
         pathGet() {
             var currentPath = location.href
-            console.log(currentPath)
+            console.log('currentPath', currentPath)
         },
-       //    获取并储存 accesstoken
-        getAccesstoken() {
+        //  获取并储存 accesstoken
+        accesstokenGet() {
             let path = this.$store.state.path
-            let url = path + '/weixin/AccessToken'
-            var request = {
+            // let url = path + '/weixin/AccessToken'
+            let url = 'http://www.linruoyu.top/wx/oauth/token'
+            let request = {
                url : url,
                method: 'GET',
            }
             Ajax(request).then(e=> {
                 let token = e.access_token
+                console.log('acesstoken', e)
                 this.$store.commit('accessTokenSave', token)
-                console.log('测试', this.$store.state.AccessToken)
+                return token
+            }).then(token=> {
+                // 获取 用户信息
+                let url = 'http://www.linruoyu.top:8085/weixin/findByCode'
+                let request = {
+                    method: 'POST',
+                    url: url,
+                    data: {
+                        code : this.$store.state.code,
+                        accessTocken: this.$store.state.AccessToken,
+                    },
+                }
+                this.$store.commit('requestSave', request)
+                return request
+            }).then(request=> {
+                let newRequest = this.$store.state.request
+                console.log('ajax前 request', request, '类型', typeof(newRequest))
+                $.post(newRequest.url, newRequest.data, e=> {
+                        console.log('newRequest', newRequest, '类型', typeof(newRequest))
+                        console.log('e', e)
+                        var jq = e
+                        return jq
+                }).then(jq=> {
+                    console.log('这里是jq的 promise', jq)
+                })
             })
         },
+    },
+    components: {
+        'v-footer': vFooter,
+        'v-slide': vSlide,
+        'v-news': vNews,
+        'v-download': vDownLoad,
     },
 }
 </script>
 
 <style lang="css">
+    html body {
+        padding: 0;
+        margin: 0;
+        background: #e9f1fe;
+
+    }
     .Home {
-        margin-bottom: 80px;
     }
-    /*轮播图*/
-    .swiper-container {
-        height: 200px;
-        width: 640px;
-        text-align: center;
-        line-height: 200px;
-    }
+
     /*导航*/
     .navList {
-        width: 520px;
-        /*height: 500px;*/
-        font-size: 25px;
-        margin: 0 auto;
+        position: relative;
+        width: 600px;
+        height: 410px;
+        background: white;
+        margin: 20px auto;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .navBlock {
+        width: 502px;
+        height: 330px;
+        margin: 46px 50px 36px 50px;
+        position: relative;
         display: flex;
         flex-wrap: wrap;
-        align-content: space-around;
-        color: black;
-        word-wrap: break-word;
-
-
+        align-content: space-between;
     }
-    .navList .nav {
-        width: 150px;
-        height: 150px;
-        line-height: 150px;
-        text-align: center;
-        background: #199ED8;
-        border-radius: 50%;
-        margin: 0 auto;
+    .navMargin1 {
+        margin-right: 43px;
     }
-    .navList .nav a {
-        display: block;
+    .navMargin2 {
+        margin:0 43px;
+    }
+    .navMargin3 {
+        margin-left: 43px;
+    }
+
+    .nav a{
         width: 100%;
         height: 100%;
+        text-align: center;
+        font-size: 24px;
+        color: #3b93fb;
         text-decoration: none;
-        color: black;
+    }
+    .navInfo {
+        height: 150px;
+        width: 110px;
+    }
+    .navImg {
+        width: 110px;
+        height: 110px;
+        overflow: hidden;
+    }
+    .navImg img {
+        width: 100%;
+        height: 100%;
     }
 </style>

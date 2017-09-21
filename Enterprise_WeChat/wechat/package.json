@@ -16,8 +16,11 @@
     "fastclick": "^1.0.6",
     "http-server": "^0.10.0",
     "lib-flexible": "^0.3.2",
+    "pdfjs": "^2.0.0-alpha.3",
     "px2rem-loader": "^0.1.7",
     "vue": "^2.4.2",
+    "vue-infinite-loading": "^2.2.0",
+    "vue-infinite-scroll": "^2.0.1",
     "vue-router": "^2.7.0",
     "vuex": "^2.4.0"
   },

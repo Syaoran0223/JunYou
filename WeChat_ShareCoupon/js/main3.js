@@ -7,8 +7,6 @@ var getOpenID = function(callback){
     var couponId = splitUrl(location.href).id
     log('dddddddd couponId',couponId)
     getCouponInfo(couponId)
-    //  替换标题图标
-    getCouponImg(couponId)
     if(!window.sessionStorage.getItem("openid")){
         $.ajax({
             url : "http://www.jy12348.com/law/if/ccborder/getOpenId",
@@ -57,47 +55,19 @@ var getOpenID = function(callback){
     };
 }
 
-//  获取 标题 和 Banner 图片
-var getCouponImg = function(couponId) {
-    log('getCouponInfo里的 couponId', couponId)
-
-    var url = path  + '/law/if/v2/promotionalActivity/promotionalActivityDetail'
-    var sendData = {
-        promotionalActivityId: couponId,
-    }
-    $.post(url, sendData,function(res) {
-        console.log('获取到的标题和Banner', res.data)
-        var img = res.data.notes
-        log('img', img)
-        document.querySelector('#id-banner-img').src = img
-        // 这里是修改微信浏览器标题的套路
-        var title = res.data.shareTitle + ''
-        var $body = $('body');
-        document.title = title
-        var $iframe = $('<iframe src="/favicon.ico"></iframe>');
-        $iframe.on('load',function() {
-          setTimeout(function() {
-              $iframe.off('load').remove();
-          }, 0);
-        }).appendTo($body);
-    })
-}
 
 // 优惠券相关
 //  获取优惠券信息
 var getCouponInfo = function(couponId) {
     log('getCouponInfo里的 couponId', couponId)
-        var url = path  + '/law/if/v2/promotionalActivity/promotionalActivityCouponList'
+    var url = path + '/law/if/v2/promotionalActivity/promotionalActivityCouponList'
     var sendData = {
         promotionalActivityId: couponId,
     }
     $.post(url, sendData,function(res) {
         console.log('获取到的优惠券信息', res.data)
         var info = res.data
-        var rule = info[0].notes
-        ruleInfo = rule + '</br></br></br>'
-        // $('.footer-info').text(ruleInfo)
-        document.querySelector('.footer-info').innerHTML =  ruleInfo
+        log('info', info)
         appenCoupon(info)
     })
 }
@@ -146,7 +116,7 @@ var couponTemplate = function(couponInfo) {
         title: i.title,
         endDate: timeChange(i.endDate),
         leastMoneyLimit : i.leastMoneyLimit ,
-        // notes: i.notes + '\r\n\r\n\r\n'
+        notes: i.notes
     }
     log('截止日期',obj.endDate)
     var t = `
@@ -168,7 +138,7 @@ var couponTemplate = function(couponInfo) {
         </div>
     </div>`
     // 单独修改 活动规则
-    // $('.footer-info').text(obj.notes)
+    $('.footer-info').text(obj.notes)
     return t
 }
 
@@ -391,16 +361,24 @@ let browserRedirect = function () {
         }
 }
 
+
 // 刷新页面的时候隐藏所有
 hiddenAll()
 log('页面隐藏了')
 $(document).ready(function(){
+
+    // $('.bindphone').hide()
+    // $('.register').hide()
+    // $('.coupon-bg').hide()
     if(isWechat()) {
         getOpenID(function(data) {
+            // log('data', data)
         })
     } else {
         hiddenAll()
         alert('不是在微信')
-
+        // browserRedirect()
+        // showRegister()
+        // showCoupon()
     }
 });

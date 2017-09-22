@@ -3,27 +3,25 @@
         <div class="templateShowList">
             <div class="templateShowListContent" v-for='(l, index) in filterTitle'>
                 <a :href='l.link'>
-
-                <div class="templateShowListContentMain">
-                    <div class="titleMain">
-                        <div class="title">
-                            {{l.title }}
+                    <div class="templateShowListContentMain">
+                        <div class="titleMain">
+                            <div class="title">
+                                {{l.title }}
+                            </div>
+                            <div class="more">
+                                <div class="moreTitle">
+                                    查看详情
+                                </div>
+                                <div class="moreImg">
+                                    <img src="static/images/template/more.png" alt="">
+                                </div>
+                            </div>
                         </div>
-                        <div class="more">
-                            <div class="moreTitle">
-                                查看详情
-                            </div>
-                            <div class="moreImg">
-                                <img src="static/images/template/more.png" alt="">
-                            </div>
+                        <div class="content">
+                            {{ l.content.slice(0,35) + '...'}}
                         </div>
                     </div>
-                    <div class="content">
-                        {{ l.content.slice(0,35) + '...'}}
-                    </div>
-                </div>
-            </a>
-                
+                </a>
             </div>
         </div>
     </div>

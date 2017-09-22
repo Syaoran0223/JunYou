@@ -9,6 +9,8 @@ import Customize from '@/components/Customize/customize'
 import Review from '@/components/Review/review'
 import Template from '@/components/Template/Template'
 import Commission from '@/components/Commission/commission'
+// 新闻
+import News from '@/components/Home/newsInfo'
 Vue.use(Router)
 // const path = ''
 const path = '/ccb/qiye'
@@ -20,6 +22,12 @@ export default new Router({
       path: '/',
       name: 'Home',
       component: Home,
+    },
+    // 新闻
+    {
+      path: '/news',
+      name: 'news',
+      component: News,
     },
     // 服务记录
     {

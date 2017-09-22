@@ -1,6 +1,8 @@
 <template lang="html">
     <div class="Home" >
-        <v-slide></v-slide>
+        <keep-alive>
+            <v-slide></v-slide>
+        </keep-alive>
         <!-- 导航 -->
         <div class="navList">
             <div class="navBlock">
@@ -25,9 +27,11 @@
 </template>
 
 <script>
-import vDownLoad from '@/components/Home/download'
+// import vDownLoad from '@/components/Home/download'
+// import vDownLoad from '@/components/Home/download1'
 import vSlide from '@/components/Home/slide'
-import vNews from '@/components/Home/news'
+// import vNews from '@/components/Home/news'
+import vNews from '@/components/Home/newsList'
 import vFooter from '@/components/Home/footer'
 import Ajax from '@/tool/ajax'
 export default {
@@ -110,28 +114,35 @@ export default {
                 return token
             }).then(token=> {
                 // 获取 用户信息
-                let url = 'http://www.linruoyu.top:8085/weixin/findByCode'
-                let request = {
-                    method: 'POST',
-                    url: url,
-                    data: {
-                        code : this.$store.state.code,
-                        accessTocken: this.$store.state.AccessToken,
-                    },
+                let url = 'https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo'
+                let data = {
+                    code : this.$store.state.code,
+                    accessTocken: this.$store.state.AccessToken,
                 }
-                this.$store.commit('requestSave', request)
-                return request
-            }).then(request=> {
-                let newRequest = this.$store.state.request
-                console.log('ajax前 request', request, '类型', typeof(newRequest))
-                $.post(newRequest.url, newRequest.data, e=> {
-                        console.log('newRequest', newRequest, '类型', typeof(newRequest))
-                        console.log('e', e)
-                        var jq = e
-                        return jq
-                }).then(jq=> {
-                    console.log('这里是jq的 promise', jq)
-                })
+                console.log('获取到的 code ', data.code)
+                $.get(url, data, e=> console.log('用户信息', e))
+                // let url = 'http://www.linruoyu.top:8085/weixin/findByCode'
+                // let request = {
+                //     method: 'POST',
+                //     url: url,
+                //     data: {
+                //         code : this.$store.state.code,
+                //         accessTocken: this.$store.state.AccessToken,
+                //     },
+                // }
+                // this.$store.commit('requestSave', request)
+                // return request
+            // }).then(request=> {
+            //     let newRequest = this.$store.state.request
+            //     console.log('ajax前 request', request, '类型', typeof(newRequest))
+            //     $.post(newRequest.url, newRequest.data, e=> {
+            //             console.log('newRequest', newRequest, '类型', typeof(newRequest))
+            //             console.log('e', e)
+            //             var jq = e
+            //             return jq
+            //     }).then(jq=> {
+            //         console.log('这里是jq的 promise', jq)
+            //     })
             })
         },
     },
@@ -139,7 +150,7 @@ export default {
         'v-footer': vFooter,
         'v-slide': vSlide,
         'v-news': vNews,
-        'v-download': vDownLoad,
+        
     },
 }
 </script>

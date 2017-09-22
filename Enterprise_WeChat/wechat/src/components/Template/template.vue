@@ -108,9 +108,10 @@ export default {
     },
     methods: {
         templateShowClick(index) {
+            this.searchInfo = ''
             this.currentIndex = index
             if (this.listTotal[index] == undefined) {
-                this.list = []
+                this.list = ''
             } else {
                 this.list = this.listTotal[index]
             }
@@ -177,7 +178,13 @@ export default {
         height: 100vh;
         background: #fff;
         position: relative;
-        padding-top: 90px;
+        /*padding-top: 90px;*/
+        /*新增*/
+        position: fixed;
+        top: 90px;
+        left: 0;
+        z-index: 100;
+
     }
     .templateLeft li {
         list-style: none;
@@ -227,6 +234,7 @@ export default {
     }
     .templateRight {
         position: relative;
+        left: 160px;
         top: 90px;
         width:480px;
         height: 100vh;

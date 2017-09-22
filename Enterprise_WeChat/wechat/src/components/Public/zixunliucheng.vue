@@ -35,7 +35,7 @@ export default {
 
 <style lang="css">
     .zixunliucheng {
-        margin: 20px;
+        margin: 20px auto;
         padding: 30px 0px;
         background: #fff;
         border-radius: 10px;

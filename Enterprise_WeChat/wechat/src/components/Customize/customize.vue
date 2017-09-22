@@ -6,11 +6,8 @@
                     文书类型
                 </div>
                 <div class="selcet">
-                    <select name="type">
-                        <option value="volvo">婚前协议</option>
-                        <option value="saab">劳动合同</option>
-                        <option value="mercedes">Mercedes SLK</option>
-                        <option value="audi">Audi TT</option>
+                    <select name="type" v-model='selected'>
+                        <option value="" v-for='o in optionList' :value='o.value'>{{ o.title }}</option>
                     </select>
                     <div class="right">
                         <img src="static/images/customize/right.png" alt="">
@@ -20,7 +17,7 @@
             <!-- 输入内容 -->
             <div class="content">
                 <div class="">
-                    <textarea name="name" placeholder="请输入咨询内容"></textarea>
+                    <textarea name="name" v-model='content'placeholder="请输入咨询内容" ></textarea>
                 </div>
             </div>
             <div class="bottom">
@@ -46,6 +43,46 @@ import shijian from '@/components/Public/zixunshijian'
 export default {
     data() {
         return {
+            // 文书定制选择列表
+            optionList: [
+                {
+                    title:'离婚协议111111111111',
+                    value: 'a',
+                },
+                {
+                    title:'离婚协议2',
+                    value: 'b',
+                },
+                {
+                    title:'离婚协议离婚协议',
+                    value: 'c',
+                },
+                {
+                    title:'离婚协议',
+                    value: 'd',
+                },
+                {
+                    title:'离婚协议',
+                    value: 'e',
+                },
+                {
+                    title:'离婚协议',
+                    value: 'e1',
+                },
+                {
+                    title:'离婚协议',
+                    value: 'e2',
+                },
+                {
+                    title:'离婚协议',
+                    value: 'e3',
+                },
+            ],
+            // 文书类型
+            selected: 'a',
+            // 咨询内容
+            content: '',
+            contentLimit: 5,
             // 咨询流程
             askTitle: '合同定制流程',
             askInfo: [
@@ -61,11 +98,22 @@ export default {
                 {
                     title:'完成服务；'
                 },
-            ]
+            ],
         }
     },
     methods: {
 
+    },
+    watch: {
+        selected: function() {
+            console.log('selected', this.selected)
+        },
+        content: function() {
+            if (this.content.length > this.contentLimit) {
+                this.content = this.content.slice(0, this.contentLimit)
+                return  alert(`请限制在${this.contentLimit}字以内`)
+            }
+        }
     },
     components: {
         zixunliucheng:zixunliucheng,
@@ -83,7 +131,7 @@ export default {
     .customize {
         width: 600px;
         height: 500px;
-        margin: 20px;
+        margin: 20px auto;
         background: #fff;
         border-radius: 10px;
         box-sizing: border-box;
@@ -101,9 +149,9 @@ export default {
     .customize .selcet {
         display: flex;
         justify-content: center;
-        width: 100px;
+        width: 150px;
         position: relative;
-        right: 20px;
+        right: 10px;
     }
     .customize select{
         color:#43515a;
@@ -111,16 +159,20 @@ export default {
         border: none;
         font-size: 28px;
         background: #fff;
+        width: 130px;
     }
     .customize .right {
         position: relative;
-        right: 68px;
+        /*right: 68px;*/
+        right: 0px;
         z-index: 10;
-        top: 6px;
-    }
-    .right img {
         width: 16px;
         height: 26px;
+        top: 10px;
+    }
+    .right img {
+        width: 100%;
+        height: 100%;
     }
     /* 文本内容 */
     .customize .content {

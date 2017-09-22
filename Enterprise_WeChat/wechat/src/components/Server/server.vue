@@ -3,7 +3,8 @@
         这里是 - 服务记录
         <div class="f">
             <!-- <iframe src="http://www.jy12348.com/FileManager/get?vid=09EA993164D889A0BE1F7CAD5CD92228FAD33BB230D25249919C95DA583E9EBF" width="300px" height="500px"></iframe> -->
-            <iframe src="http://www.jy12348.com/FileManager/get?vid=B1BC0EFF4B5126FA127DBAC6E3C955142317487B92DCBE69CFE8B91AAB403B97" width="300px" height="800px" allowfullscreen></iframe>
+            <!-- <iframe src="http://www.jy12348.com/FileManager/get?vid=B1BC0EFF4B5126FA127DBAC6E3C955142317487B92DCBE69CFE8B91AAB403B97" width="300px" height="800px" allowfullscreen></iframe> -->
+            <iframe src="/static/html/news.htm" width="" height=""></iframe>
         </div>
         <div class="download">
             <button type="button" name="button">下载</button>

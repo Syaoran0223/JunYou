@@ -6,7 +6,7 @@
                     咨询标题
                 </div>
                 <div class="advisory-Value">
-                    <input type="text" name="" value="" placeholder='请输入咨询标题'>
+                    <input type="text" name=""v-model='title' placeholder='请输入咨询标题'>
                 </div>
             </div>
             <div class="advisoryContent">
@@ -14,7 +14,7 @@
                     咨询内容
                 </div>
                 <div class="advisoryContentTextarea">
-                    <textarea name="name" rows="15" cols="5" ></textarea>
+                    <textarea name="name" rows="15" cols="5" v-model='content' placeholder='字数在150字以内'></textarea>
                     <!-- <div class="showTextarea">
                         1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
                         1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="onlineButton">
-                <button type="button" name="button">发布</button>
+                <button type="button" name="button" >发布</button>
             </div>
         </div>
         <zixunliucheng :title=askTitle :infoMain='askInfo'></zixunliucheng>
@@ -42,6 +42,13 @@ import shijian from '@/components/Public/zixunshijian'
 export default {
     data() {
         return {
+            // 咨询标题 && 限制字数
+            title: '',
+            titleLimit: 3,
+            // 咨询内容 && 限制字数
+            content: '',
+            contentLimit: 4,
+
             // 咨询流程
             askTitle: '线上咨询流程',
             askInfo: [
@@ -61,7 +68,44 @@ export default {
         }
     },
     methods: {
+        // 发送请求
+        fromPost() {
+            let logic = {
+                titleLimit: this.title > this.titleLimit,
+                contentLimit : this.content > this.contentLimit,
+                empty: this.title == '' || this.content == ''
+            }
+            if (logic.titleLimit && logic.contentLimit) {
+                return alert('发送失败，超出字数限制')
+            } else if (logic.empty) {
+                return alert('发送失败，标题或者内容不能为空')
+            }
+            console.log('满足条件')
+            // let url = path + ''
+            // let data = {
+            //     title: this.title,
+            //     content: this.content,
+            // }
+            // $.post(url, data, e => {
 
+            // })
+        }
+    },
+    watch: {
+        title: function() {
+            if (this.title.length > this.titleLimit) {
+                // 切掉超出字数限制部分文字
+                this.title = this.title.slice(0, this.titleLimit)
+                alert(`请限制 ${this.titleLimit} 字以内`)
+            }
+        },
+        content: function() {
+            if (this.content.length> this.contentLimit) {
+                // 切掉超出字数限制部分文字
+                this.content = this.content.slice(0, this.contentLimit)
+                alert(`请限制 ${this.contentLimit} 字以内`)
+            }
+        }
     },
     components: {
         zixunliucheng:zixunliucheng,
@@ -123,7 +167,7 @@ export default {
         width: 100%;
         line-height:28px;
         z-index: 100;
-        line-height: 66px;
+        /*line-height: 66px;*/
         /*border: none;*/
                 overflow:hidden;
         text-overflow:ellipsis;
